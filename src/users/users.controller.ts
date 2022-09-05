@@ -11,17 +11,17 @@ export class UsersController {
 
     }
 
-    @Get('user/all')
+    @Get('user')
     getAllUsers(): User[]{
         return this.userService.getAllUsers();
     }
 
-    @Get('permissions/all')
+    @Get('permission')
     getAllPermissions(): string[] {
         return ['permission1','permission2','permission3'];
     }
 
-    @Get('User/:id')
+    @Get('user/:id')
     getUserByID(@Param('id') id): string{
         return `User of ID : ${id}`;
     }
@@ -31,9 +31,9 @@ export class UsersController {
         return `Permission of ID : ${id}`;
     }
 
-    @Get(':id/:permissions')
-    getUserPermissionByID(@Param('id') id,@Param('permissions') permissions): string{
-        return `User of ID : ${id} has permissions : ${permissions}`;
+    @Get(':id/permissions')
+    getUserPermissionByID(@Param('id') id): string{
+        return `User of ID : ${id} has permissions`;
     }
 
 
@@ -42,17 +42,17 @@ export class UsersController {
         return `The permission created is : ${permission}}`;
     }
 
-    @Post('user/create')
+    @Post('user')
     createUser(@Body() createUserDto: CreateUserDto): string{
         return `Name: ${createUserDto.name}, Description : ${createUserDto.description}, Quantity: ${createUserDto.quantity}`
     }
 
-    @Put('updateUser/:id')
+    @Put('user/:id')
     updateUser(@Body() updateUserDto: CreateUserDto, @Param('id') id) : string{
         return `Update ${id} - Name ${updateUserDto.name}`;
     }
 
-    @Delete('deleteUser/:id')
+    @Delete('user/:id')
     deleteUser(@Param('id') id): string{
         return `Delete ${id}`;
     }
