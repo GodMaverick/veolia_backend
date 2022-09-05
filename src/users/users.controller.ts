@@ -4,7 +4,7 @@ import { UsersService } from './users.service'
 import { User } from './interfaces/user.interface';
 
 
-@Controller('items')
+@Controller("user")
 export class UsersController {
 
     constructor( private readonly userService: UsersService){
@@ -13,7 +13,7 @@ export class UsersController {
 
     @Get()
     getAllUsers(): User[]{
-        return this.getAllUsers();
+        return this.userService.getAllUsers();
     }
 
     @Get()
