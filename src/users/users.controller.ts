@@ -4,24 +4,24 @@ import { UsersService } from './users.service'
 import { User } from './interfaces/user.interface';
 
 
-@Controller("user")
+@Controller()
 export class UsersController {
 
     constructor( private readonly userService: UsersService){
 
     }
 
-    @Get()
+    @Get('user/all')
     getAllUsers(): User[]{
         return this.userService.getAllUsers();
     }
 
-    @Get()
+    @Get('permissions/all')
     getAllPermissions(): string[] {
         return ['permission1','permission2','permission3'];
     }
 
-    @Get(':id')
+    @Get('User/:id')
     getUserByID(@Param('id') id): string{
         return `User of ID : ${id}`;
     }
@@ -42,17 +42,17 @@ export class UsersController {
         return `The permission created is : ${permission}}`;
     }
 
-    @Post()
+    @Post('user/create')
     createUser(@Body() createUserDto: CreateUserDto): string{
         return `Name: ${createUserDto.name}, Description : ${createUserDto.description}, Quantity: ${createUserDto.quantity}`
     }
 
-    @Put(':id')
+    @Put('updateUser/:id')
     updateUser(@Body() updateUserDto: CreateUserDto, @Param('id') id) : string{
         return `Update ${id} - Name ${updateUserDto.name}`;
     }
 
-    @Delete(':id')
+    @Delete('deleteUser/:id')
     deleteUser(@Param('id') id): string{
         return `Delete ${id}`;
     }
