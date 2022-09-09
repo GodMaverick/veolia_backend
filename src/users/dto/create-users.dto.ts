@@ -1,11 +1,21 @@
-export class CreateUserDto{
+import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsString } from 'class-validator';
 
-    readonly name: string;    
+export class CreateUserDto {
 
-    readonly description: string;    
-    readonly quantity: number;
-    readonly permission: string;
-    readonly role: string;
+  @IsString()
+  @ApiProperty()
+  readonly name: string;
 
+  @IsString()
+  @ApiProperty()
+  readonly description: string;
 
+  @IsInt()
+  @ApiProperty()
+  readonly quantity: number;
+
+  @IsString()
+  @ApiProperty()
+  readonly role: string;
 }

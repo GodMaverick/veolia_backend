@@ -7,7 +7,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Veolia User API')
-    .setDescription('List Of User API Permissions')
+    .setDescription('List of User API Permissions')
     .setVersion('1.0.0')
     .addTag('')
     .build();

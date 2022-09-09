@@ -1,62 +1,82 @@
-import { Controller, Get, Post, Put, Delete, Body, Req, Res, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Req,
+  Res,
+  Param,
+  Patch,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-users.dto';
-import { UsersService } from './users.service'
+import { UsersService } from './users.service';
 import { User } from './interfaces/user.interface';
 
-
-@Controller()
+@ApiTags('Users')
+@Controller('user')
 export class UsersController {
+  constructor(private readonly userService: UsersService) {}
 
-    constructor( private readonly userService: UsersService){
+  @Get()
+  @ApiOperation({ summary: 'Get All Users' })
+  @ApiResponse({ status: 200, description: 'List of Users.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  getAllUsers(): User[] {
+    return this.userService.getAllUsers();
+  }
 
-    }
+  @Get(':id')
+  @ApiOperation({ summary: 'Get User By ID' })
+  @ApiResponse({ status: 200, description: 'Single User Returned.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  getUserByID(@Param('id') id): User {
+    return this.userService.getUserByID(id);
+  }
 
-    @Get('user')
-    getAllUsers(): User[]{
-        return this.userService.getAllUsers();
-    }
+  @Get(':id/permissions')
+  @ApiOperation({ summary: 'Get User Permission' })
+  @ApiResponse({ status: 200, description: 'List of User Permissions.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  getUserPermissionByID(@Param('id') id): string {
+    return this.userService.getUserPermissionByID(id);
+  }
 
-    @Get('permission')
-    getAllPermissions(): string[] {
-        return ['permission1','permission2','permission3'];
-    }
+  @Post()
+  @ApiOperation({ summary: 'Create User' })
+  @ApiCreatedResponse({ description: 'New user created successfully.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  createUser(@Body() createUserDto: CreateUserDto): string {
+    return this.userService.createUser(createUserDto);
+  }
 
-    @Get('user/:id')
-    getUserByID(@Param('id') id): string{
-        return `User of ID : ${id}`;
-    }
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update User' })
+  @ApiResponse({
+    status: 201,
+    description: 'The user has been successfully updated.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  updateUser(@Body() updateUserDto: CreateUserDto, @Param('id') id): string {
+    return this.userService.updateUser(updateUserDto, id);
+  }
 
-    @Get('permission/:id')
-    getPermissionByID(@Param('id') id): string{
-        return `Permission of ID : ${id}`;
-    }
-
-    @Get(':id/permissions')
-    getUserPermissionByID(@Param('id') id): string{
-        return `User of ID : ${id} has permissions`;
-    }
-
-
-    @Post('permission')
-    createPermission( permission:string ): string{
-        return `The permission created is : ${permission}}`;
-    }
-
-    @Post('user')
-    createUser(@Body() createUserDto: CreateUserDto): string{
-        return `Name: ${createUserDto.name}, Description : ${createUserDto.description}, Quantity: ${createUserDto.quantity}`
-    }
-
-    @Put('user/:id')
-    updateUser(@Body() updateUserDto: CreateUserDto, @Param('id') id) : string{
-        return `Update ${id} - Name ${updateUserDto.name}`;
-    }
-
-    @Delete('user/:id')
-    deleteUser(@Param('id') id): string{
-        return `Delete ${id}`;
-    }
-
-
-
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete User' })
+  @ApiResponse({
+    status: 201,
+    description: 'The User has been successfully deleted.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  deleteUser(@Param('id') id): string {
+    return this.userService.deleteUser(id);
+  }
 }
